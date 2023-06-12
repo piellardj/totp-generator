@@ -1,5 +1,7 @@
 # totp-generator
-TODO
+This is an online tool to generate TOTP codes like an app such as Google Authenticator would do.
+
+Built using the npm package [`totp-generator`](https://www.npmjs.com/package/totp-generator).
 
 [See it live here.](https://piellardj.github.io/totp-generator)
 

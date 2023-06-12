@@ -3,7 +3,8 @@
     "parser": "@typescript-eslint/parser",
     "ignorePatterns": [
         "*.d.ts",
-        "*.js"
+        "*.js",
+        "page-interface-generated.ts"
     ],
     "plugins": [
         "@typescript-eslint"
