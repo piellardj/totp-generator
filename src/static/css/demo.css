@@ -1,0 +1,84 @@
+body {
+    user-select: none;
+}
+
+#error-messages {
+    width: 100%;
+    font-weight: bold;
+    color: red;
+    margin: 16px auto 32px;
+}
+
+.section {
+    max-width: 768px;
+    margin: auto;
+    padding: 16px;
+    border-radius: 9px;
+    background: #eee;
+    border: 1px solid #c9c9c9;
+    text-align: left;
+}
+@media (prefers-color-scheme: dark) {
+    .section {
+        background: #202020;
+        border-color: #535353;
+    }
+}
+
+.controls-block-item {
+    display: flex;
+    flex-flow: row wrap;
+    align-items: baseline;
+    margin-bottom: 1em;
+}
+
+.control-label {
+    width: 100%;
+    margin-bottom: .25em;
+}
+.control-label::after {
+    content: ":";
+}
+
+@media only screen and (min-width: 576px) {
+    .controls-block-item {
+        margin-bottom: .25em;
+    }
+
+    .control-label {
+        width: auto;
+        min-width: 6em;
+        margin-bottom: 0;
+    }
+}
+
+.control-container {
+    flex-grow: 1;
+    margin: 2px 0;
+}
+.control-container input,
+.control-container select {
+    font-size: 100%;
+    box-sizing: border-box;
+}
+
+.control-container input[type=number] {
+    width: 5em;
+}
+.control-container input[type=text] {
+    width: 100%;
+}
+
+.results-container {
+    margin-top: 2em;
+    text-align: center;
+}
+
+#generated-code {
+    margin: .5em .5em 0;
+    font-size: 32px;
+    font-weight: bold;
+    letter-spacing: .1em;
+    user-select: text;
+    white-space: nowrap;
+}

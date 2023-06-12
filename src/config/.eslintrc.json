@@ -1,0 +1,63 @@
+{
+    "root": true,
+    "parser": "@typescript-eslint/parser",
+    "ignorePatterns": [
+        "*.d.ts",
+        "*.js"
+    ],
+    "plugins": [
+        "@typescript-eslint"
+    ],
+    "env": {
+        "browser": true
+    },
+    "parserOptions": {
+        "project": "./src/config/tsconfig.json"
+    },
+    "extends": [
+        "eslint:recommended",
+        "plugin:@typescript-eslint/recommended"
+    ],
+    "rules": {
+        "@typescript-eslint/explicit-function-return-type": [
+            "error",
+            {
+                "allowExpressions": true
+            }
+        ],
+        "@typescript-eslint/no-inferrable-types": [
+            "error",
+            {
+                "ignoreParameters": true,
+                "ignoreProperties": true
+            }
+        ],
+        "@typescript-eslint/no-shadow": "error",
+        "@typescript-eslint/no-unused-vars": "off", // enforced by TS
+        "comma-dangle": [
+            "error",
+            {
+                "arrays": "only-multiline",
+                "objects": "only-multiline",
+                "imports": "only-multiline",
+                "exports": "only-multiline",
+                "functions": "never"
+            }
+        ],
+        "indent": [
+            "warn",
+            4,
+            {
+                "SwitchCase": 1
+            }
+        ],
+        "no-multiple-empty-lines": [
+            "warn",
+            {
+                "max": 1
+            }
+        ],
+        "no-trailing-spaces": "warn",
+        "semi": "error"
+    }
+}
