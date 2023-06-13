@@ -135,3 +135,12 @@ button:hover,
 button:focus {
     outline: 0px;
 }
+
+#qrcode-warnings {
+    color: darkorange;
+}
+@media (prefers-color-scheme: dark) {
+    #qrcode-warnings {
+        color: orange;
+    }
+}

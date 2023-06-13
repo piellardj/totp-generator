@@ -38,7 +38,7 @@ const data = {
             </div>
             <div class="controls-block-item">
                 <div class="control-label">Digits</div>
-                <div class="control-container"><input type="number" min="1" max="100" value="6" id="digits" plaholder="6"></input></div>
+                <div class="control-container"><input type="number" min="3" max="9" value="6" id="digits" plaholder="6"></input></div>
             </div>
             <div class="controls-block-item">
                 <div class="control-label">Period</div>
@@ -49,14 +49,14 @@ const data = {
                     <div class="control-container">
                     <select id="algorithm">
                         <option value= "SHA-1" selected>SHA-1</option>
-                        <option value= "SHA-224">SHA-224</option>
+                        <!-- <option value= "SHA-224">SHA-224</option> -->
                         <option value= "SHA-256">SHA-256</option>
-                        <option value= "SHA-384">SHA-384</option>
+                        <!-- <option value= "SHA-384">SHA-384</option> -->
                         <option value= "SHA-512">SHA-512</option>
-                        <option value= "SHA3-224">SHA3-224</option>
-                        <option value= "SHA3-256">SHA3-256</option>
-                        <option value= "SHA3-384">SHA3-384</option>
-                        <option value= "SHA3-512">SHA3-512</option>
+                        <!-- <option value= "SHA3-224">SHA3-224</option> -->
+                        <!-- <option value= "SHA3-256">SHA3-256</option> -->
+                        <!-- <option value= "SHA3-384">SHA3-384</option> -->
+                        <!-- <option value= "SHA3-512">SHA3-512</option> -->
                     </select>
                     </div>
                 </div>
@@ -80,6 +80,7 @@ const data = {
         </div>
         <div class="block qrcode-container">
             <canvas id="qrcode" width="300" height="300"></canvas>
+            <div id="qrcode-warnings">⚠ haha hihi</div>
         </div>
     </div>
 </div>`,

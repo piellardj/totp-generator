@@ -28,11 +28,19 @@ function main(): void {
     const countdownProgress = document.querySelector<HTMLProgressElement>("progress#countdown")!;
 
     const qrCodeCanvas = document.querySelector<HTMLCanvasElement>("canvas#qrcode")!;
+    const qrCodeWarnings = document.getElementById("qrcode-warnings")!;
 
     const secretUrlParameter = "secret";
     const digitsUrlParameter = "digits";
     const periodUrlParameter = "period";
     const algorithmUrlParameter = "algorithm";
+
+    function emptyElement(element: HTMLElement): void {
+        element.textContent = "";
+        while (element.childElementCount > 0) {
+            element.removeChild(element.childNodes[0]);
+        }
+    }
 
     function loadUrlParameters(): void {
         const parameters = new URLSearchParams(window.location.search);
@@ -75,16 +83,20 @@ function main(): void {
         };
 
         const token = getToken(secret, options);
-        generatedCodeSpan.textContent = "";
-        while (generatedCodeSpan.childElementCount > 0) {
-            generatedCodeSpan.removeChild(generatedCodeSpan.childNodes[0]);
+        emptyElement(generatedCodeSpan);
+        let splitCount = 3;
+        if (digits === 4) {
+            splitCount = 4;
+        } else if (digits === 8) {
+            splitCount = 4;
         }
+
         let tokenLeft = token;
         while (tokenLeft.length > 0) {
             const span = document.createElement("span");
             span.className = "generated-code-part";
-            span.textContent = tokenLeft.substring(0, 3);
-            tokenLeft = tokenLeft.substring(3);
+            span.textContent = tokenLeft.substring(0, splitCount);
+            tokenLeft = tokenLeft.substring(splitCount);
             generatedCodeSpan.appendChild(span);
         }
 
@@ -102,17 +114,44 @@ function main(): void {
     }
 
     function updateQrCode(): void {
+        const issuer = "TOTPgenerator";
         const secret = secretInput.value.trim();
         const digits = +digitsInput.value.trim();
         const period = +periodInput.value.trim();
+        const algorithmRaw = algorithmSelect.value;
+        const algorithm = algorithmRaw.replace("-", "");
 
-        const url = `otpauth://totp/TOTPgenerator?secret=${secret}&digits=${digits}&period=${period}`;
+        const url = `otpauth://totp/${issuer}?issuer=${issuer}&secret=${secret}&digits=${digits}&period=${period}&algorithm=${algorithm}`;
         QRCode.toCanvas(qrCodeCanvas, url, (error: unknown): void => {
             if (error) {
                 console.error(error);
             }
         });
         qrCodeCanvas.title = url;
+
+
+        const warnings: string[] = [];
+        if (![6, 8].includes(digits)) {
+            warnings.push(`Uncommon digits value "${digits}" is not supported by all authenticator apps.`);
+        }
+        if (algorithm !== "SHA1") {
+            warnings.push(`Uncommon algorithm "${algorithmRaw}" is not supported by all authenticator apps.`);
+        }
+        if (period !== 30) {
+            warnings.push(`Uncommon period "${period}" is not supported by all authenticator apps.`);
+        }
+
+        emptyElement(qrCodeWarnings);
+        if (warnings.length > 0) {
+            qrCodeWarnings.style.display = "block";
+            for (const warning of warnings) {
+                const div = document.createElement("div");
+                div.textContent = `⚠ ${warning}`;
+                qrCodeWarnings.appendChild(div);
+            }
+        } else {
+            qrCodeWarnings.style.display = "";
+        }
     }
 
     function onControlChange(): void {
