@@ -69,8 +69,11 @@ body {
     width: 100%;
 }
 
+.block + .block {
+    margin-top: 32px;
+}
+
 .results-container {
-    margin-top: 1em;
     display: flex;
     flex-flow: column nowrap;
     align-items: center;
@@ -92,7 +95,15 @@ body {
     flex-flow: column nowrap;
     align-items: center;
     justify-content: center;
-    margin: 16px;
+    margin: 0 16px 16px 16px;
+}
+
+.qrcode-container {
+    text-align: center;
+}
+
+#qrcode {
+    border-radius: 9px;
 }
 
 .countdown-section {

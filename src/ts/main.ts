@@ -11,6 +11,10 @@ type TotpAlgorithm =
     | 'SHA3-384'
     | 'SHA3-512';
 
+declare const QRCode: {
+    toCanvas: (canvas: HTMLCanvasElement, data: string, callback: (error: unknown) => void) => void;
+};
+
 function main(): void {
     const secretInput = document.querySelector<HTMLInputElement>("input#secret")!;
     const digitsInput = document.querySelector<HTMLInputElement>("input#digits")!;
@@ -22,6 +26,8 @@ function main(): void {
 
     const secondsLeftSpan = document.getElementById("seconds-left")!;
     const countdownProgress = document.querySelector<HTMLProgressElement>("progress#countdown")!;
+
+    const qrCodeCanvas = document.querySelector<HTMLCanvasElement>("canvas#qrcode")!;
 
     const secretUrlParameter = "secret";
     const digitsUrlParameter = "digits";
@@ -95,9 +101,24 @@ function main(): void {
         }
     }
 
+    function updateQrCode(): void {
+        const secret = secretInput.value.trim();
+        const digits = +digitsInput.value.trim();
+        const period = +periodInput.value.trim();
+
+        const url = `otpauth://totp/TOTPgenerator?secret=${secret}&digits=${digits}&period=${period}`;
+        QRCode.toCanvas(qrCodeCanvas, url, (error: unknown): void => {
+            if (error) {
+                console.error(error);
+            }
+        });
+        qrCodeCanvas.title = url;
+    }
+
     function onControlChange(): void {
         updateResult();
         storeUrlParameters();
+        updateQrCode();
     }
 
     function bindEvents(): void {
@@ -134,6 +155,7 @@ function main(): void {
     loadUrlParameters();
     bindEvents();
     updateResult();
+    updateQrCode();
     setInterval(updateResult, 500);
 }
 

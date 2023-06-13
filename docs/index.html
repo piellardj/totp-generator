@@ -11,8 +11,8 @@
     <link rel="icon" type="image/png" href="favicon-16x16.png" sizes="16x16">
     <link rel="icon" type="image/png" href="favicon-32x32.png" sizes="32x32">
     <link rel="icon" type="image/png" href="favicon-96x96.png" sizes="96x96">
-    <link rel="stylesheet" type="text/css" href="css/page.css?v=2023-06-12T22%3A09%3A45.637Z">
-    <link rel="stylesheet" type="text/css" href="css/demo.css?v=2023-06-12T22%3A09%3A45.637Z">
+    <link rel="stylesheet" type="text/css" href="css/page.css?v=2023-06-13T13%3A01%3A15.946Z">
+    <link rel="stylesheet" type="text/css" href="css/demo.css?v=2023-06-13T13%3A01%3A15.946Z">
   </head>
 
   <body>
@@ -46,7 +46,7 @@
 
       <div class="section">
         <div class="section-contents">
-          <div>
+          <div class="block">
             <div class="controls-block">
               <div class="controls-block-item">
                 <div class="control-label">Secret</div>
@@ -78,7 +78,7 @@
               </div>
             </div>
           </div>
-          <div class="results-container">
+          <div class="block results-container">
             <div id="generated-code-container">
               <span id="generated-code">012345</span>
               <button id="copy-generated-code">Copy</button>
@@ -93,6 +93,9 @@
                 <progress id="countdown" max="100" value="100"></progress>
               </div>
             </div>
+          </div>
+          <div class="block qrcode-container">
+            <canvas id="qrcode" width="300" height="300"></canvas>
           </div>
         </div>
       </div>
@@ -124,11 +127,12 @@
     <script type="text/javascript">
       var Page = Page || {};
       Object.defineProperty(Page, "version", {
-        value: "2023-06-12T22%3A09%3A45.637Z",
+        value: "2023-06-13T13%3A01%3A15.946Z",
         writable: false,
       });
     </script>
-    <script src="script/main.min.js?v=2023-06-12T22%3A09%3A45.637Z"></script>
+    <script src="script/qrcode.js?v=2023-06-13T13%3A01%3A15.946Z"></script>
+    <script src="script/main.min.js?v=2023-06-13T13%3A01%3A15.946Z"></script>
   </body>
 
 </html>

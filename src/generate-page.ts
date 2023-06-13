@@ -1,4 +1,5 @@
 import * as fs from "fs";
+import * as fse from "fs-extra";
 import * as path from "path";
 import { DemopageEmpty } from "webpage-templates";
 
@@ -16,19 +17,20 @@ const data = {
     },
     additionalLinks: [],
     scriptFiles: [
+        "script/qrcode.js",
         "script/main.min.js"
     ],
     styleFiles: [
         "css/demo.css"
     ],
     body:
-`<div id="error-messages">
+        `<div id="error-messages">
     <noscript>You need to enable Javascript to run this experiment.</noscript>
 </div>
 
 <div class="section">
     <div class="section-contents">
-        <div>
+        <div class="block">
             <div class="controls-block">
                 <div class="controls-block-item">
                 <div class="control-label">Secret</div>
@@ -60,7 +62,7 @@ const data = {
                 </div>
             </div>
         </div>
-        <div class="results-container">
+        <div class="block results-container">
             <div id="generated-code-container">
                 <span id="generated-code">012345</span>
                 <button id="copy-generated-code">Copy</button>
@@ -76,6 +78,9 @@ const data = {
                 </div>
             </div>
         </div>
+        <div class="block qrcode-container">
+            <canvas id="qrcode" width="300" height="300"></canvas>
+        </div>
     </div>
 </div>`,
 };
@@ -90,7 +95,4 @@ buildResult.pageScriptDeclaration = "/* tslint:disable */\n" + buildResult.pageS
 const SCRIPT_DECLARATION_FILEPATH = path.resolve(__dirname, ".", "ts", "page-interface-generated.ts");
 fs.writeFileSync(SCRIPT_DECLARATION_FILEPATH, buildResult.pageScriptDeclaration);
 
-const sourceCss = path.resolve(__dirname, "static", "css", "demo.css");
-const destinationCss = path.resolve(__dirname, "..", "docs", "css", "demo.css");
-
-fs.copyFileSync(sourceCss, destinationCss);
+fse.copySync(path.resolve(__dirname, "static"), path.resolve(__dirname, "..", "docs"));
