@@ -38,11 +38,11 @@ const data = {
             </div>
             <div class="controls-block-item">
                 <div class="control-label">Digits</div>
-                <div class="control-container"><input type="number" min="3" max="9" value="6" id="digits" plaholder="6"></input></div>
+                <div class="control-container"><input type="number" min="3" max="9" value="6" id="digits" placeholder="6"></input></div>
             </div>
             <div class="controls-block-item">
                 <div class="control-label">Period</div>
-                <div class="control-container"><input type="number" min="1" max="360" value="30" id="period"  plaholder="30"></input><span style="margin-left:.5em">seconds</span></div>
+                <div class="control-container"><input type="number" min="1" max="360" value="30" id="period"  placeholder="30"></input><span style="margin-left:.5em">seconds</span></div>
             </div>
                 <div class="controls-block-item">
                     <div class="control-label">Algorithm</div>
@@ -68,11 +68,7 @@ const data = {
                 <button id="copy-generated-code">Copy</button>
             </div>
             <div class="countdown-section">
-                <div>
-                    <span>This code will expire in </span>
-                    <span id="seconds-left">X</span>
-                    <span> seconds.</span>
-                </div>
+                <div id="seconds-left"></div>
                 <div>
                     <progress id="countdown" max="100" value="100"></progress>
                 </div>

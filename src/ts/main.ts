@@ -72,38 +72,55 @@ function main(): void {
 
     function updateResult(): void {
         const secret = secretInput.value.trim();
-        const digits = +digitsInput.value.trim();
-        const period = +periodInput.value.trim();
+        const digitsString = digitsInput.value.trim();
+        const digits = +digitsString;
+        const periodString = periodInput.value.trim();
+        const period = +periodString;
         const algorithm = algorithmSelect.value as TotpAlgorithm;
 
-        const options = {
-            period,
-            algorithm,
-            digits,
-        };
+        const secretIsValid = (secret !== "");
+        const digitsAreValid = (digitsString !== "") && !isNaN(digits) && (digits > 0);
+        const periodIsValid = (periodString !== "") && !isNaN(period) && (period > 0);
 
-        const token = getToken(secret, options);
         emptyElement(generatedCodeSpan);
-        let splitCount = 3;
-        if (digits === 4) {
-            splitCount = 4;
-        } else if (digits === 8) {
-            splitCount = 4;
-        }
 
-        let tokenLeft = token;
-        while (tokenLeft.length > 0) {
-            const span = document.createElement("span");
-            span.className = "generated-code-part";
-            span.textContent = tokenLeft.substring(0, splitCount);
-            tokenLeft = tokenLeft.substring(splitCount);
-            generatedCodeSpan.appendChild(span);
-        }
+        if (secretIsValid && digitsAreValid && periodIsValid) {
+            const options = {
+                period,
+                algorithm,
+                digits,
+            };
 
-        const secondsSinceEpoch = Math.ceil(Date.now() / 1000) - 1;
-        const secondsLeft = period - (secondsSinceEpoch % period);
-        secondsLeftSpan.textContent = secondsLeft.toString();
-        countdownProgress.value = 100 * secondsLeft / period;
+            const token = getToken(secret, options);
+            let splitCount = 3;
+            if (digits === 4) {
+                splitCount = 4;
+            } else if (digits === 8) {
+                splitCount = 4;
+            }
+
+            let tokenLeft = token;
+            while (tokenLeft.length > 0) {
+                const span = document.createElement("span");
+                span.className = "generated-code-part";
+                span.textContent = tokenLeft.substring(0, splitCount);
+                tokenLeft = tokenLeft.substring(splitCount);
+                generatedCodeSpan.appendChild(span);
+            }
+
+            const secondsSinceEpoch = Math.ceil(Date.now() / 1000) - 1;
+            const secondsLeft = period - (secondsSinceEpoch % period);
+            secondsLeftSpan.textContent = `This code will expire in ${secondsLeft} seconds.`;
+            countdownProgress.value = 100 * secondsLeft / period;
+            countdownProgress.style.display = "";
+            copyGeneratedCodeButton.style.display = "";
+
+        } else {
+            generatedCodeSpan.textContent = "Invalid input.";
+            secondsLeftSpan.textContent = "";
+            countdownProgress.style.display = "none";
+            copyGeneratedCodeButton.style.display = "none";
+        }
     }
 
     function copyToClipboard(): void {
@@ -168,23 +185,11 @@ function main(): void {
         secretInput.addEventListener("change", onSecretUpdate);
         secretInput.addEventListener("keyup", onSecretUpdate);
 
-        const onDigitsChange = (): void => {
-            if (digitsInput.value === "") {
-                digitsInput.value = "6";
-            }
-            onControlChange();
-        };
-        digitsInput.addEventListener("change", onDigitsChange);
-        digitsInput.addEventListener("keyup", onDigitsChange);
+        digitsInput.addEventListener("change", onControlChange);
+        digitsInput.addEventListener("keyup", onControlChange);
 
-        const onPeriodChange = (): void => {
-            if (periodInput.value === "") {
-                periodInput.value = "30";
-            }
-            onControlChange();
-        };
-        periodInput.addEventListener("change", onPeriodChange);
-        periodInput.addEventListener("keyup", onPeriodChange);
+        periodInput.addEventListener("change", onControlChange);
+        periodInput.addEventListener("keyup", onControlChange);
 
         algorithmSelect.addEventListener("change", onControlChange);
 
