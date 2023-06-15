@@ -190,6 +190,7 @@ function main(): void {
                 const defaultValue = this.getAttribute("placeholder");
                 if (defaultValue) {
                     this.value = this.defaultValue;
+                    onControlChange();
                 }
             }
         }
