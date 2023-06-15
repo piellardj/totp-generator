@@ -185,11 +185,22 @@ function main(): void {
         secretInput.addEventListener("change", onSecretUpdate);
         secretInput.addEventListener("keyup", onSecretUpdate);
 
+        function setDefaultIfNeeded(this: HTMLInputElement): void {
+            if (this.value === "" || isNaN(+this.value) || +this.value <= 0) {
+                const defaultValue = this.getAttribute("placeholder");
+                if (defaultValue) {
+                    this.value = this.defaultValue;
+                }
+            }
+        }
+
         digitsInput.addEventListener("change", onControlChange);
         digitsInput.addEventListener("keyup", onControlChange);
+        digitsInput.addEventListener("blur", setDefaultIfNeeded);
 
         periodInput.addEventListener("change", onControlChange);
         periodInput.addEventListener("keyup", onControlChange);
+        periodInput.addEventListener("blur", setDefaultIfNeeded);
 
         algorithmSelect.addEventListener("change", onControlChange);
 
