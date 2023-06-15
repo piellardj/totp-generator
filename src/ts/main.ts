@@ -15,6 +15,13 @@ declare const QRCode: {
     toCanvas: (canvas: HTMLCanvasElement, data: string, callback: (error: unknown) => void) => void;
 };
 
+function emptyElement(element: HTMLElement): void {
+    element.textContent = "";
+    while (element.childElementCount > 0) {
+        element.removeChild(element.childNodes[0]);
+    }
+}
+
 function main(): void {
     const secretInput = document.querySelector<HTMLInputElement>("input#secret")!;
     const digitsInput = document.querySelector<HTMLInputElement>("input#digits")!;
@@ -34,13 +41,6 @@ function main(): void {
     const digitsUrlParameter = "digits";
     const periodUrlParameter = "period";
     const algorithmUrlParameter = "algorithm";
-
-    function emptyElement(element: HTMLElement): void {
-        element.textContent = "";
-        while (element.childElementCount > 0) {
-            element.removeChild(element.childNodes[0]);
-        }
-    }
 
     function loadUrlParameters(): void {
         const parameters = new URLSearchParams(window.location.search);
