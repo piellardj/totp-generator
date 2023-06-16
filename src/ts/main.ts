@@ -22,6 +22,18 @@ function emptyElement(element: HTMLElement): void {
     }
 }
 
+function tryParsePositiveInteger(input: string): number | null {
+    input = input.trim();
+    if (input === "") {
+        return null;
+    }
+    const asNumber = +input;
+    if (isNaN(asNumber) || asNumber <= 0 || !Number.isInteger(asNumber)) {
+        return null;
+    }
+    return asNumber;
+}
+
 function main(): void {
     const secretInput = document.querySelector<HTMLInputElement>("input#secret")!;
     const digitsInput = document.querySelector<HTMLInputElement>("input#digits")!;
@@ -73,14 +85,14 @@ function main(): void {
     function updateResult(): void {
         const secret = secretInput.value.trim();
         const digitsString = digitsInput.value.trim();
-        const digits = +digitsString;
+        const digits = tryParsePositiveInteger(digitsString);
         const periodString = periodInput.value.trim();
-        const period = +periodString;
+        const period = tryParsePositiveInteger(periodString);
         const algorithm = algorithmSelect.value as TotpAlgorithm;
 
         const secretIsValid = (secret !== "");
-        const digitsAreValid = (digitsString !== "") && !isNaN(digits) && (digits > 0);
-        const periodIsValid = (periodString !== "") && !isNaN(period) && (period > 0);
+        const digitsAreValid = digits !== null;
+        const periodIsValid = period !== null;
 
         emptyElement(generatedCodeSpan);
 
@@ -146,7 +158,6 @@ function main(): void {
         });
         qrCodeCanvas.title = url;
 
-
         const warnings: string[] = [];
         if (![6, 8].includes(digits)) {
             warnings.push(`Uncommon digits value "${digits}" is not supported by all authenticator apps.`);
@@ -186,7 +197,7 @@ function main(): void {
         secretInput.addEventListener("keyup", onSecretUpdate);
 
         function setDefaultIfNeeded(this: HTMLInputElement): void {
-            if (this.value === "" || isNaN(+this.value) || +this.value <= 0) {
+            if (tryParsePositiveInteger(this.value) === null) {
                 const defaultValue = this.getAttribute("placeholder");
                 if (defaultValue) {
                     this.value = this.defaultValue;
