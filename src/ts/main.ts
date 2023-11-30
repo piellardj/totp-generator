@@ -83,7 +83,7 @@ function main(): void {
     }
 
     function updateResult(): void {
-        const secret = secretInput.value.trim();
+        const secret = secretInput.value.trim().replace(/\s/g, "");
         const digitsString = digitsInput.value.trim();
         const digits = tryParsePositiveInteger(digitsString);
         const periodString = periodInput.value.trim();
